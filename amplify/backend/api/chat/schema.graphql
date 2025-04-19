@@ -1,6 +1,16 @@
-type Message @model @auth(rules: [{ allow: public }]) {
+type Message
+  @model
+  @auth(
+    rules: [
+      # only the message owner can create/update/delete
+      { allow: owner, ownerField: "owner" },
+      # everyone (API‑key or signed‑in) can read the list
+      { allow: public, operations: [read] }
+    ]
+  ) {
   id: ID!
   text: String!
   sender: String!
   timestamp: AWSDateTime!
+  owner: String    # automatically set to the Cognito username
 }

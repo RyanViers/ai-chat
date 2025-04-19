@@ -17,6 +17,7 @@ export const createMessage = /* GraphQL */ `mutation CreateMessage(
     text
     sender
     timestamp
+    owner
     createdAt
     updatedAt
     __typename
@@ -35,6 +36,7 @@ export const updateMessage = /* GraphQL */ `mutation UpdateMessage(
     text
     sender
     timestamp
+    owner
     createdAt
     updatedAt
     __typename
@@ -53,6 +55,7 @@ export const deleteMessage = /* GraphQL */ `mutation DeleteMessage(
     text
     sender
     timestamp
+    owner
     createdAt
     updatedAt
     __typename

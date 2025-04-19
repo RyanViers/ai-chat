@@ -14,6 +14,7 @@ export const getMessage = /* GraphQL */ `query GetMessage($id: ID!) {
     text
     sender
     timestamp
+    owner
     createdAt
     updatedAt
     __typename
@@ -34,6 +35,7 @@ export const listMessages = /* GraphQL */ `query ListMessages(
       text
       sender
       timestamp
+      owner
       createdAt
       updatedAt
       __typename

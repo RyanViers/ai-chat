@@ -7,12 +7,14 @@ export type CreateMessageInput = {
   text: string,
   sender: string,
   timestamp: string,
+  owner?: string | null,
 };
 
 export type ModelMessageConditionInput = {
   text?: ModelStringInput | null,
   sender?: ModelStringInput | null,
   timestamp?: ModelStringInput | null,
+  owner?: ModelStringInput | null,
   and?: Array< ModelMessageConditionInput | null > | null,
   or?: Array< ModelMessageConditionInput | null > | null,
   not?: ModelMessageConditionInput | null,
@@ -66,6 +68,7 @@ export type Message = {
   text: string,
   sender: string,
   timestamp: string,
+  owner?: string | null,
   createdAt: string,
   updatedAt: string,
 };
@@ -75,6 +78,7 @@ export type UpdateMessageInput = {
   text?: string | null,
   sender?: string | null,
   timestamp?: string | null,
+  owner?: string | null,
 };
 
 export type DeleteMessageInput = {
@@ -86,6 +90,7 @@ export type ModelMessageFilterInput = {
   text?: ModelStringInput | null,
   sender?: ModelStringInput | null,
   timestamp?: ModelStringInput | null,
+  owner?: ModelStringInput | null,
   createdAt?: ModelStringInput | null,
   updatedAt?: ModelStringInput | null,
   and?: Array< ModelMessageFilterInput | null > | null,
@@ -124,6 +129,7 @@ export type ModelSubscriptionMessageFilterInput = {
   updatedAt?: ModelSubscriptionStringInput | null,
   and?: Array< ModelSubscriptionMessageFilterInput | null > | null,
   or?: Array< ModelSubscriptionMessageFilterInput | null > | null,
+  owner?: ModelStringInput | null,
 };
 
 export type ModelSubscriptionIDInput = {
@@ -168,6 +174,7 @@ export type CreateMessageMutation = {
     text: string,
     sender: string,
     timestamp: string,
+    owner?: string | null,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -185,6 +192,7 @@ export type UpdateMessageMutation = {
     text: string,
     sender: string,
     timestamp: string,
+    owner?: string | null,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -202,6 +210,7 @@ export type DeleteMessageMutation = {
     text: string,
     sender: string,
     timestamp: string,
+    owner?: string | null,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -218,6 +227,7 @@ export type GetMessageQuery = {
     text: string,
     sender: string,
     timestamp: string,
+    owner?: string | null,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -238,6 +248,7 @@ export type ListMessagesQuery = {
       text: string,
       sender: string,
       timestamp: string,
+      owner?: string | null,
       createdAt: string,
       updatedAt: string,
     } | null >,
@@ -247,6 +258,7 @@ export type ListMessagesQuery = {
 
 export type OnCreateMessageSubscriptionVariables = {
   filter?: ModelSubscriptionMessageFilterInput | null,
+  owner?: string | null,
 };
 
 export type OnCreateMessageSubscription = {
@@ -256,6 +268,7 @@ export type OnCreateMessageSubscription = {
     text: string,
     sender: string,
     timestamp: string,
+    owner?: string | null,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -263,6 +276,7 @@ export type OnCreateMessageSubscription = {
 
 export type OnUpdateMessageSubscriptionVariables = {
   filter?: ModelSubscriptionMessageFilterInput | null,
+  owner?: string | null,
 };
 
 export type OnUpdateMessageSubscription = {
@@ -272,6 +286,7 @@ export type OnUpdateMessageSubscription = {
     text: string,
     sender: string,
     timestamp: string,
+    owner?: string | null,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -279,6 +294,7 @@ export type OnUpdateMessageSubscription = {
 
 export type OnDeleteMessageSubscriptionVariables = {
   filter?: ModelSubscriptionMessageFilterInput | null,
+  owner?: string | null,
 };
 
 export type OnDeleteMessageSubscription = {
@@ -288,6 +304,7 @@ export type OnDeleteMessageSubscription = {
     text: string,
     sender: string,
     timestamp: string,
+    owner?: string | null,
     createdAt: string,
     updatedAt: string,
   } | null,

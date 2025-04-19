@@ -1,13 +1,14 @@
 import { Injectable, signal } from '@angular/core';
 import { generateClient } from 'aws-amplify/api';
-import { createMessage } from '../../../graphql/mutations';
-import type { CreateMessageInput } from '../../../API'; // or wherever your types are
+import { createMessage } from '../../graphql/mutations';
+import type { CreateMessageInput } from '../../API'; 
 import { Message } from "./models";
 
 @Injectable()
 export class ChatService {
   
   private client = generateClient(); // Initialize your GraphQL client here
+
   message = signal('');
   messages = signal<Message[]>([
     { text: 'Welcome to your chat assistant.', sender: 'ai', timestamp: Date.now() },
@@ -39,7 +40,7 @@ export class ChatService {
           {
             id: created.id,
             text: created.text,
-            sender: created.sender as 'user' | 'ai', // 👈 fix
+            sender: created.sender as 'user' | 'ai',
             timestamp: new Date(created.timestamp).getTime(),
           },
         ]);
