@@ -1,5 +1,5 @@
 import { Component, inject } from "@angular/core";
-import { ScrollToBottomDirective } from '../../directives/scrollToBottom.directive';
+import { ScrollToBottomDirective } from '../../shared/directives/scrollToBottom.directive';
 import { ChatService } from "../chat.service";
 
 @Component({

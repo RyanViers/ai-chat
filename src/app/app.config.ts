@@ -8,10 +8,10 @@ import awsmobile from '../aws-exports';
 
 if (typeof window !== 'undefined') {
   // Create a shallow clone so we don't mutate aws-exports.js directly
-  const config = { ...awsmobile } as any;
+  const config = {...awsmobile };
 
   // Drop only the empty oauth block
-  delete config.oauth;
+  //delete config.oauth;
 
   // Now wire up your full Amplify config (Auth + API, etc.)
   Amplify.configure(config);
@@ -22,6 +22,5 @@ export const appConfig: ApplicationConfig = {
     provideExperimentalZonelessChangeDetection(),
     provideRouter(routes),
     provideClientHydration(withEventReplay()),
-    // …any other providers you already had…
   ],
 };
