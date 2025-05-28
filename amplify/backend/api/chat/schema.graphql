@@ -1,16 +1,37 @@
+type Conversation
+  @model
+  @auth(
+    rules: [
+      { allow: owner, ownerField: "owner", operations: [create, read, update, delete] }
+    ]
+  ) {
+  id: ID!
+  owner: String! 
+  aiModel: String! 
+  title: String 
+  createdAt: AWSDateTime
+  updatedAt: AWSDateTime
+}
+
 type Message
   @model
   @auth(
     rules: [
-      # only the message owner can create/update/delete
-      { allow: owner, ownerField: "owner" },
-      # everyone (API‑key or signed‑in) can read the list
-      { allow: public, operations: [read] }
+      { allow: owner, ownerField: "owner", operations: [create, read, update, delete] }
     ]
   ) {
   id: ID!
+  conversationId: ID! @index(name: "byConversation", queryField: "messagesByConversation", sortKeyFields: ["timestamp"])
   text: String!
-  sender: String!
+  sender: String! 
   timestamp: AWSDateTime!
+  status: MessageStatus
   owner: String    # automatically set to the Cognito username
 }
+
+enum MessageStatus {
+  sending
+  sent
+  error
+}
+

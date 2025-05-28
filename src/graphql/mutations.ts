@@ -8,15 +8,71 @@ type GeneratedMutation<InputType, OutputType> = string & {
   __generatedMutationOutput: OutputType;
 };
 
+export const createConversation = /* GraphQL */ `mutation CreateConversation(
+  $input: CreateConversationInput!
+  $condition: ModelConversationConditionInput
+) {
+  createConversation(input: $input, condition: $condition) {
+    id
+    owner
+    aiModel
+    title
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.CreateConversationMutationVariables,
+  APITypes.CreateConversationMutation
+>;
+export const updateConversation = /* GraphQL */ `mutation UpdateConversation(
+  $input: UpdateConversationInput!
+  $condition: ModelConversationConditionInput
+) {
+  updateConversation(input: $input, condition: $condition) {
+    id
+    owner
+    aiModel
+    title
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.UpdateConversationMutationVariables,
+  APITypes.UpdateConversationMutation
+>;
+export const deleteConversation = /* GraphQL */ `mutation DeleteConversation(
+  $input: DeleteConversationInput!
+  $condition: ModelConversationConditionInput
+) {
+  deleteConversation(input: $input, condition: $condition) {
+    id
+    owner
+    aiModel
+    title
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.DeleteConversationMutationVariables,
+  APITypes.DeleteConversationMutation
+>;
 export const createMessage = /* GraphQL */ `mutation CreateMessage(
   $input: CreateMessageInput!
   $condition: ModelMessageConditionInput
 ) {
   createMessage(input: $input, condition: $condition) {
     id
+    conversationId
     text
     sender
     timestamp
+    status
     owner
     createdAt
     updatedAt
@@ -33,9 +89,11 @@ export const updateMessage = /* GraphQL */ `mutation UpdateMessage(
 ) {
   updateMessage(input: $input, condition: $condition) {
     id
+    conversationId
     text
     sender
     timestamp
+    status
     owner
     createdAt
     updatedAt
@@ -52,9 +110,11 @@ export const deleteMessage = /* GraphQL */ `mutation DeleteMessage(
 ) {
   deleteMessage(input: $input, condition: $condition) {
     id
+    conversationId
     text
     sender
     timestamp
+    status
     owner
     createdAt
     updatedAt

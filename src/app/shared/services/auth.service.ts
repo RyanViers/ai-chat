@@ -3,7 +3,8 @@ import {
   signIn,
   signUp,
   signOut,
-  getCurrentUser
+  getCurrentUser,
+  confirmSignUp
 } from 'aws-amplify/auth';
 import { Router } from '@angular/router';
 import { SignUpAttributes } from './models';
@@ -13,23 +14,12 @@ export class AuthService {
   private router = inject(Router);
 
   private cognitoUser = signal(null);
-  
-  getCognitoUser() {
+
+  public getCognitoUser() {
     return this.cognitoUser();
   }
 
-  setCognitoUser(user: any) {
-    this.cognitoUser.set(user);
-  }
-
-  constructor() {
-    // prime the signal once on app start
-    getCurrentUser()
-      .then(u => this.cognitoUser.set(u))
-      .catch(() => this.cognitoUser.set(null));
-  }
-
-  async signIn(username: string, password: string) {
+  public async signIn(username: string, password: string) {
     try {
       const user = await signIn({username, password});
       this.cognitoUser.set(user);
@@ -41,9 +31,8 @@ export class AuthService {
     }
   }
 
-  async signUp(signUpData: SignUpAttributes) {
+  public async signUp(signUpData: SignUpAttributes) {
     try {
-     
       const user = await signUp({
         username: signUpData.email,
         password: signUpData.password,
@@ -56,27 +45,38 @@ export class AuthService {
     }
   }
 
-  async signOut() {
+  public async signOut() {
     try {
       await signOut();
       this.cognitoUser.set(null);
-      this.router.navigate(['/auth']);
+      this.router.navigate(['/login']);
     } catch (error) {
       console.error('Error signing out:', error);
       throw error;
     }
   }
 
-  goBack() {
-    this.router.navigateByUrl('/login');
-  }
-
-  async isAuthenticated(): Promise<boolean> {
+  public async isAuthenticated(): Promise<boolean> {
     try {
-      await getCurrentUser();
+      const user = await getCurrentUser();
+      this.cognitoUser.set(user);
       return true;
     } catch (error) {
+      this.cognitoUser.set(null);
       return false;
+    }
+  }
+
+  public async confirmSignUp(username: string, code: string) {
+    try {
+      await confirmSignUp({
+        username,
+        confirmationCode: code
+      });
+      return true;
+    } catch (error) {
+      console.error('Error confirming sign up:', error);
+      throw error;
     }
   }
 }

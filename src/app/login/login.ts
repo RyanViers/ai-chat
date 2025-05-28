@@ -66,13 +66,13 @@ import { ModalComponent } from '../shared/components/modal';
       </div>
 
       <!-- Modal -->
-      <app-modal
+      <modal
         [open]="showModal()"
         [title]="modalTitle()"
         (close)="showModal.set(false)"
       >
         <p class="text-center text-white">{{ modalMessage() }}</p>
-      </app-modal>
+      </modal>
     </div>
   `,
 })

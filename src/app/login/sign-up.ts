@@ -67,14 +67,52 @@ import { RouterLink } from '@angular/router';
         </div>
       </div>
 
-      <!-- Modal -->
-      <app-modal
+      <!-- Success/Error Modal -->
+      <modal
         [open]="showModal()"
         [title]="modalTitle()"
         (close)="showModal.set(false)"
       >
         <p class="text-center text-white">{{ modalMessage() }}</p>
-      </app-modal>
+      </modal>
+
+      <!-- Verification Modal -->
+      <modal
+        [open]="showVerificationModal()"
+        [title]="'Email Verification'"
+        (close)="cancelVerification()"
+      >
+        <div class="space-y-4">
+          <p class="text-center text-white">
+            Please enter the verification code sent to your email.
+          </p>
+          <div class="relative">
+            <input
+              [formControl]="verificationCodeControl"
+              type="text"
+              class="w-full p-3 pl-12 rounded-lg bg-white/5 border border-white/20 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-300 peer"
+              placeholder="Verification Code"
+            />
+            <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 peer-focus:text-blue-400 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            </svg>
+          </div>
+          <div class="flex space-x-3">
+            <button
+              (click)="verifyCode()"
+              class="flex-1 py-2 px-4 rounded-lg bg-gradient-to-r from-green-600 to-teal-600 text-white font-semibold hover:from-green-700 hover:to-teal-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 focus:ring-offset-transparent transition-all duration-300"
+            >
+              Verify
+            </button>
+            <button
+              (click)="cancelVerification()"
+              class="flex-1 py-2 px-4 rounded-lg bg-gradient-to-r from-red-600 to-pink-600 text-white font-semibold hover:from-red-700 hover:to-pink-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 focus:ring-offset-transparent transition-all duration-300"
+            >
+              Cancel
+            </button>
+          </div>
+        </div>
+      </modal>
     </div>
   `,
 })
@@ -84,14 +122,13 @@ export class SignupComponent {
   // Create form controls for all SignUpAttributes
   protected emailControl = new FormControl('', [Validators.email, Validators.required]);
   protected passwordControl = new FormControl('', [Validators.required]);
-
-  
-
+  protected verificationCodeControl = new FormControl('', [Validators.required]);
 
   // Modal signals
   protected showModal = signal(false);
   protected modalMessage = signal('');
   protected modalTitle = signal('');
+  protected showVerificationModal = signal(false);
   
   protected signup = async () => {
     this.showModal.set(false);
@@ -102,13 +139,33 @@ export class SignupComponent {
         password: this.passwordControl.value || '',
       }
       await this.service.signUp(signupData);
-      this.modalTitle.set('Success');
-      this.modalMessage.set('Registered successfully.');
-      this.showModal.set(true);
+      this.showVerificationModal.set(true);
     } catch (e: any) {
       this.modalTitle.set('Error');
       this.modalMessage.set(e.message || 'Sign up failed.');
       this.showModal.set(true);
     }
+  };
+
+  protected verifyCode = async () => {
+    try {
+      await this.service.confirmSignUp(
+        this.emailControl.value || '',
+        this.verificationCodeControl.value || ''
+      );
+      this.showVerificationModal.set(false);
+      this.modalTitle.set('Success');
+      this.modalMessage.set('Email verified successfully. You can now sign in.');
+      this.showModal.set(true);
+    } catch (e: any) {
+      this.modalTitle.set('Error');
+      this.modalMessage.set(e.message || 'Verification failed.');
+      this.showModal.set(true);
+    }
+  };
+
+  protected cancelVerification = () => {
+    this.showVerificationModal.set(false);
+    this.verificationCodeControl.reset();
   };
 }
