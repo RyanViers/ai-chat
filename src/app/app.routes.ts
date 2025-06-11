@@ -9,11 +9,14 @@ export const routes: Routes = [
   {
     path: 'sign-up',
     loadComponent: () => import('./login/sign-up').then(m => m.SignupComponent),
-  },
-  {
+  },  {
     path: 'chat',
     loadComponent: () => import('./chat/chat').then(m => m.ChatComponent),
     canActivate: [AuthGuard],
+  },
+  {
+    path: 'showcase',
+    loadComponent: () => import('./showcase/showcase.component').then(m => m.ShowcaseComponent),
   },
   {
     path: '**',
