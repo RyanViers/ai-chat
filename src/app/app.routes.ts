@@ -19,6 +19,10 @@ export const routes: Routes = [
     loadComponent: () => import('./showcase/showcase.component').then(m => m.ShowcaseComponent),
   },
   {
+    path: 'tailwind-demo',
+    loadComponent: () => import('./demo/tailwindui-demo.component').then(m => m.HeadcountUiDemoComponent),
+  },
+  {
     path: '**',
     redirectTo: '/login',
     pathMatch: 'full'
