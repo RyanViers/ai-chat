@@ -44,12 +44,14 @@ export type BadgeVariants = VariantProps<typeof badgeVariants>;
 
 @Component({
   selector: 'hc-badge',
-  standalone: true,
+  host: {
+    '[class]': 'computedClasses()'
+  },
   template: `
-    <span [class]="computedClasses()">
+    <span>
       <!-- Leading icon -->
       @if (leadingIcon()) {
-        <span class="mr-1.5 h-1.5 w-1.5 rounded-full" [class]="dotClasses()"></span>
+        <div class="mr-1.5 h-1.5 w-1.5 rounded-full inline-block align-middle" [class]="dotClasses()"></div>
       }
 
       <!-- Badge content -->
@@ -100,12 +102,12 @@ export class HcBadge {
   // Computed classes for status dot
   protected dotClasses = computed(() => {
     const variantMap = {
-      default: 'bg-gray-400',
-      primary: 'bg-indigo-400',
-      success: 'bg-green-400',
-      warning: 'bg-yellow-400',
-      error: 'bg-red-400',
-      info: 'bg-blue-400',
+      default: 'bg-gray-600',
+      primary: 'bg-indigo-600',
+      success: 'bg-green-600',
+      warning: 'bg-orange-500',
+      error: 'bg-red-600',
+      info: 'bg-blue-600',
     };
     return variantMap[this.variant()];
   });

@@ -29,16 +29,14 @@ imports: [
     HlmSubMenuComponent,
     HlmMenuItemDirective,
     HlmMenuItemSubIndicatorComponent,
-    HlmMenuLabelComponent,
+    
     HlmMenuShortcutComponent,
     HlmMenuSeparatorComponent,
-    HlmMenuItemIconDirective,
     HlmMenuBarItemDirective,
     HlmMenuItemCheckComponent,
     HlmMenuItemRadioComponent,
     HlmMenuGroupComponent,
 
-    HlmButtonDirective,
     HlmMenuItemCheckboxDirective,
     HlmMenuItemRadioDirective,
   ],

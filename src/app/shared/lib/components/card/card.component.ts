@@ -44,25 +44,27 @@ export type CardVariants = VariantProps<typeof cardVariants>;
 
 @Component({
   selector: 'hc-card',
-  standalone: true,
+  host: {
+    '[class]': 'computedClasses()'
+  },
   template: `
-    <div [class]="computedClasses()">
+    <div>
       <!-- Card header -->
       @if (hasHeader()) {
-        <div class="border-b border-gray-200 bg-white px-4 py-5 sm:px-6">
-          <ng-content select="[slot=header]"></ng-content>
+        <div class="border-b border-gray-200 px-4 py-5 sm:px-6">
+          <ng-content select="[slot=header]" />
         </div>
       }
 
       <!-- Card content -->
       <div [class]="contentClasses()">
-        <ng-content></ng-content>
+        <ng-content />
       </div>
 
       <!-- Card footer -->
       @if (hasFooter()) {
-        <div class="border-t border-gray-200 bg-gray-50 px-4 py-4 sm:px-6">
-          <ng-content select="[slot=footer]"></ng-content>
+        <div class="border-t border-gray-200 px-4 py-4 sm:px-6">
+          <ng-content select="[slot=footer]" />
         </div>
       }
     </div>

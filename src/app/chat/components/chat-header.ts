@@ -21,6 +21,6 @@ export class ChatHeaderComponent {
   constructor(private router: Router) {}
   
   navigateToShowcase(): void {
-    this.router.navigate(['/showcase']);
+    this.router.navigate(['/tailwind-demo']);
   }
 }

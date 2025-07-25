@@ -12,7 +12,7 @@ export const routes: Routes = [
   },  {
     path: 'chat',
     loadComponent: () => import('./chat/chat').then(m => m.ChatComponent),
-    canActivate: [AuthGuard],
+    //canActivate: [AuthGuard],
   },
   {
     path: 'showcase',
@@ -21,6 +21,10 @@ export const routes: Routes = [
   {
     path: 'tailwind-demo',
     loadComponent: () => import('./demo/tailwindui-demo.component').then(m => m.HeadcountUiDemoComponent),
+  },
+  {
+    path: 'demo/page3',
+    loadComponent: () => import('./demo/demo-page-3.component').then(m => m.DemoPage3Component),
   },
   {
     path: '**',

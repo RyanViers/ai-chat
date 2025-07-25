@@ -1,6 +1,6 @@
 import { Component, input, computed, forwardRef, signal } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { HcBaseInputDirective } from '../../primitives/base-input/base-input.directive';
+import { HcInputDirective } from '../../primitives/input/input.directive';
 import { cn } from '../../utils/cn';
 import { cva, type VariantProps } from 'class-variance-authority';
 
@@ -37,8 +37,7 @@ export type InputVariants = VariantProps<typeof inputVariants>;
 
 @Component({
   selector: 'hc-input',
-  standalone: true,
-  imports: [HcBaseInputDirective],
+  imports: [HcInputDirective],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
@@ -63,7 +62,7 @@ export type InputVariants = VariantProps<typeof inputVariants>;
       <!-- Input wrapper -->
       <div class="relative">
         <input
-          hcBaseInput
+          hcInput
           [id]="inputId()"
           [type]="type()"
           [placeholder]="placeholder()"
@@ -116,32 +115,32 @@ export type InputVariants = VariantProps<typeof inputVariants>;
 })
 export class HcInput implements ControlValueAccessor {
   // Component inputs
-  label = input<string>('');
-  type = input<'text' | 'email' | 'password' | 'number' | 'tel' | 'url' | 'search'>('text');
-  placeholder = input<string>('');
-  helpText = input<string>('');
-  errorMessage = input<string>('');
-  size = input<InputVariants['size']>('md');
-  state = input<InputVariants['state']>('default');
-  disabled = input<boolean>(false);
-  readonly = input<boolean>(false);
-  required = input<boolean>(false);
-  leadingIcon = input<boolean>(false);
-  trailingIcon = input<boolean>(false);
-  class = input<string>('');
+  public readonly label = input<string>('');
+  public readonly type = input<'text' | 'email' | 'password' | 'number' | 'tel' | 'url' | 'search'>('text');
+  public readonly placeholder = input<string>('');
+  public readonly helpText = input<string>('');
+  public readonly errorMessage = input<string>('');
+  public readonly size = input<InputVariants['size']>('md');
+  public readonly state = input<InputVariants['state']>('default');
+  public readonly disabled = input<boolean>(false);
+  public readonly readonly = input<boolean>(false);
+  public readonly required = input<boolean>(false);
+  public readonly leadingIcon = input<boolean>(false);
+  public readonly trailingIcon = input<boolean>(false);
+  public readonly class = input<string>('');
 
   // Internal state
-  private _value = signal<string>('');
-  value = this._value.asReadonly();
+  private readonly _value = signal<string>('');
+  protected readonly value = this._value.asReadonly();
 
   // Generate unique IDs
-  private _id = Math.random().toString(36).substr(2, 9);
-  inputId = input<string>(`hc-input-${this._id}`);
-  helpTextId = computed(() => `${this.inputId()}-help`);
-  errorId = computed(() => `${this.inputId()}-error`);
+  private readonly _id = Math.random().toString(36).substr(2, 9);
+  protected readonly inputId = input<string>(`hc-input-${this._id}`);
+  protected readonly helpTextId = computed(() => `${this.inputId()}-help`);
+  protected readonly errorId = computed(() => `${this.inputId()}-error`);
 
   // Computed classes
-  protected computedClasses = computed(() => {
+  protected readonly computedClasses = computed(() => {
     return cn(
       inputVariants({
         size: this.size(),
@@ -158,34 +157,34 @@ export class HcInput implements ControlValueAccessor {
   private onChange = (value: string) => {};
   private onTouched = () => {};
 
-  writeValue(value: string): void {
+  public writeValue(value: string): void {
     this._value.set(value || '');
   }
 
-  registerOnChange(fn: (value: string) => void): void {
+  public registerOnChange(fn: (value: string) => void): void {
     this.onChange = fn;
   }
 
-  registerOnTouched(fn: () => void): void {
+  public registerOnTouched(fn: () => void): void {
     this.onTouched = fn;
   }
 
-  setDisabledState(isDisabled: boolean): void {
+  public setDisabledState(isDisabled: boolean): void {
     // Handled by disabled input
   }
 
   // Event handlers
-  protected onInput(event: Event) {
+  protected onInput(event: Event): void {
     const target = event.target as HTMLInputElement;
     this._value.set(target.value);
     this.onChange(target.value);
   }
 
-  protected onBlur() {
+  protected onBlur(): void {
     this.onTouched();
   }
 
-  protected onFocus() {
+  protected onFocus(): void {
     // Focus handling if needed
   }
 }

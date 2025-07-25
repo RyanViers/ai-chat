@@ -1,5 +1,5 @@
 import { Component, input, computed } from '@angular/core';
-import { HcBaseButtonDirective } from '../../primitives/base-button/base-button.directive';
+import { HcButtonDirective } from '../../primitives/button/button.directive';
 import { cn } from '../../utils/cn';
 import { ButtonVariant, Size } from '../../utils/types';
 import { cva, type VariantProps } from 'class-variance-authority';
@@ -9,7 +9,7 @@ import { cva, type VariantProps } from 'class-variance-authority';
  * Based on TailwindUI button designs with full variant support
  */
 
-// Button variant styles using class-variance-authority (like shadcn)
+// Button variant styles using class-variance-authority
 const buttonVariants = cva(
   // Base styles
   'inline-flex items-center justify-center rounded-md font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none',
@@ -20,7 +20,7 @@ const buttonVariants = cva(
         secondary: 'bg-white text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 active:bg-gray-100',
         soft: 'bg-indigo-50 text-indigo-700 hover:bg-indigo-100 active:bg-indigo-200',
         outline: 'text-indigo-600 ring-1 ring-inset ring-indigo-600 hover:bg-indigo-50 active:bg-indigo-100',
-        ghost: 'text-gray-700 hover:bg-gray-50 active:bg-gray-100',
+        ghost: 'text-gray-700 hover:bg-gray-300 hover:text-gray-900 active:bg-gray-200',
         link: 'text-indigo-600 underline-offset-4 hover:underline active:text-indigo-800',
       },
       size: {
@@ -42,17 +42,15 @@ export type ButtonVariants = VariantProps<typeof buttonVariants>;
 
 @Component({
   selector: 'hc-button',
-  standalone: true,
-  imports: [HcBaseButtonDirective],
+  imports: [HcButtonDirective],
   template: `
     <button 
-      hcBaseButton 
+      hcButton 
       [type]="type()"
       [disabled]="disabled() || loading()"
-      [class]="computedClasses()"
-      (click)="handleClick($event)">
+      (click)="handleClick($event)"
+      [class]="computedClasses()">
       
-      <!-- Loading spinner -->
       @if (loading()) {
         <svg 
           class="animate-spin -ml-1 mr-2 h-4 w-4" 
@@ -75,22 +73,21 @@ export type ButtonVariants = VariantProps<typeof buttonVariants>;
         </svg>
       }
       
-      <!-- Button content -->
-      <ng-content></ng-content>
+      <ng-content />
     </button>
   `,
 })
 export class HcButton {
   // Component inputs
-  variant = input<ButtonVariant>('primary');
-  size = input<Size>('md');
-  type = input<'button' | 'submit' | 'reset'>('button');
-  disabled = input<boolean>(false);
-  loading = input<boolean>(false);
-  class = input<string>('');
+  public readonly variant = input<ButtonVariant>('primary');
+  public readonly size = input<Size>('md');
+  public readonly type = input<'button' | 'submit' | 'reset'>('button');
+  public readonly disabled = input<boolean>(false);
+  public readonly loading = input<boolean>(false);
+  public readonly class = input<string>('');
 
-  // Computed classes using cva
-  protected computedClasses = computed(() => {
+  // Computed classes using cva with proper class merging
+  protected readonly computedClasses = computed(() => {
     return cn(
       buttonVariants({
         variant: this.variant(),
@@ -100,7 +97,7 @@ export class HcButton {
     );
   });
 
-  protected handleClick(event: Event) {
+  protected handleClick(event: Event): void {
     // Prevent click when loading or disabled
     if (this.loading() || this.disabled()) {
       event.preventDefault();
